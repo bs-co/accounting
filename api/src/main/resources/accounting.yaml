@@ -1,0 +1,157 @@
+openapi: 3.0.1
+info:
+  title: Sample API
+  description: API description in Markdown.
+  version: 1.0.0
+servers:
+  - url: 'https://api.example.com'
+tags:
+  - name: Expense
+    description: Every thing about Expenses
+  - name: User
+
+paths:
+  /users:
+    get:
+      summary: Returns a list of users.
+      operationId: getUsers
+      description: Optional extended description in Markdown.
+      tags:
+        - User
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Expense'
+        403:
+          description: Unauthrized
+          content: 
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Error'
+ 
+
+  /expenses/{id}:
+    get:
+      summary: get an expense
+      operationId: getExpense
+      tags:
+        - Expense
+      parameters:
+        - name: id
+          in : path
+      responses:
+        200 :
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /expenses:
+    post:
+      summary: Save a expense
+      operationId: saveExpense
+      tags:
+        - Expenses
+      requestBody:
+        description: Expense object that need to be added to bess
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Expense'
+        required : true
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+
+components:
+  schemas:
+    User:
+      type: object
+      required: 
+        - id
+        - firstName
+        - lastName
+      properties:
+        id:
+          description: The user id
+        firstName:
+          description: The user's first name of the user 
+        lastName:
+          description: The user's last name
+    Expense:
+      type: object
+      required:
+        - id
+        - label
+        - invoiceId
+        - amount
+        - taxe
+        - type
+      properties:
+        id:
+          description: The id of the expense
+          type: string
+        label:
+          description: The label of the expense
+          type: string
+        type:
+          description: The type of the expense
+          type: string
+          enum: [professional,personal]
+        invoiceId:
+          description: The invoice id
+          type: string
+        amount:
+          description: The amount of the expense
+          type: integer
+        taxe:
+          description: The taxe
+          type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+
+
+
+
