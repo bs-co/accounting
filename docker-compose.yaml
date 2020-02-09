@@ -7,6 +7,8 @@ services:
     environment:
       -  MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
+    volumes:
+    - /home/$MONGO_DATA_DIR
     ports:
     - 27017:27017
 

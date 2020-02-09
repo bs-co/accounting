@@ -1,16 +1,18 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+	id("java-library")
 	id("org.springframework.boot") version "2.2.4.RELEASE"
 	id("io.spring.dependency-management") version "1.0.9.RELEASE"
 	kotlin("jvm") version "1.3.61"
 	kotlin("plugin.spring") version "1.3.61"
 	id("org.openapi.generator") version "4.2.3"
+	id("org.jetbrains.dokka") version "0.10.0"
 }
 
 group = "com.bs.bees.accounting"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_13
 
 val developmentOnly by configurations.creating
 configurations {
@@ -66,14 +68,34 @@ openApiGenerate {
 	packageName.set("$group")
 	apiPackage.set("$group.api")
 	modelPackage.set("$group.model")
-
-
-
+	// TODO fin a better way to set properties
+	additionalProperties.put("DateTime","spring-boot")
+	additionalProperties.put("beanValidations", "true")
+	additionalProperties.put("serviceInterface","true")
+	additionalProperties.put("serviceInterface","true")
+}
+openApiValidate{
+	inputSpec.set("$rootDir/src/main/resources/accounting.yaml")
 }
 
+tasks.dokka{
+	outputFormat = "html"
+	outputDirectory = "$buildDir/javadoc"
+}
+
+sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class){
+
+	kotlin.srcDirs("$buildDir/generated/src","$rootDir/src")
+}
 tasks.withType<KotlinCompile> {
+
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "1.8"
+
 	}
+
+
+
+
 }
