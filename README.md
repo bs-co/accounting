@@ -1,3 +1,2 @@
-# accounting
-
+# Expenses
 Appi for bussiness accounting
