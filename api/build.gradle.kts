@@ -60,7 +60,7 @@ tasks.withType<Test> {
 }
 
 
-openApiGenerate {
+/*openApiGenerate {
 
 	generatorName.set("kotlin-spring")
 	inputSpec.set("$rootDir/src/main/resources/accounting.yaml")
@@ -76,7 +76,7 @@ openApiGenerate {
 }
 openApiValidate{
 	inputSpec.set("$rootDir/src/main/resources/accounting.yaml")
-}
+}*/
 
 tasks.dokka{
 	outputFormat = "html"

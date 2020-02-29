@@ -24,5 +24,6 @@ services:
     ports:
     - 8080:8080
     - 8000:8000
+    - 5005:5005
     command: sh run.sh
 
